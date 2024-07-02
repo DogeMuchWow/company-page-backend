@@ -1,7 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpException,
+  Param,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
@@ -9,6 +13,8 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HomeContentsService } from './homeContents.service';
 import { CreateHomeContentsDTO } from './dto/CreateHomeContents.DTO';
+import mongoose from 'mongoose';
+import { UpdateHomeContentsDTO } from './dto/UpdateHomeContents.DTO';
 
 @ApiTags('Home contents')
 @Controller('homeContents')
@@ -31,5 +37,45 @@ export class HomeContentsController {
   @ApiResponse({ status: 200, description: 'Get data successfully' })
   getHomeContent() {
     return this.homeContentService.getHomeContent();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get home content data by id' })
+  getHomeContentById(@Param('id') id: string) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Home content data not found', 404);
+    const findHomeContent = this.homeContentService.getHomeContentById(id);
+    if (!findHomeContent)
+      throw new HttpException('Home content not found', 404);
+    return findHomeContent;
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update home content data by id' })
+  async updateHomeContent(
+    @Param('id') id: string,
+    @Body() updateHomeContentsDTO: UpdateHomeContentsDTO,
+  ) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('home content id not found', 404);
+    const updateHomeContent = await this.homeContentService.updateHomeContent(
+      id,
+      updateHomeContentsDTO,
+    );
+    if (!updateHomeContent)
+      throw new HttpException('home content not found', 404);
+    return updateHomeContent;
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete home content data by id' })
+  async deleteHomeContent(@Param('id') id: string) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('Home Content id not found', 404);
+    const deleteHomeContent =
+      await this.homeContentService.deleteHomeContent(id);
+    if (!deleteHomeContent)
+      throw new HttpException('Home Content not found', 404);
+    return deleteHomeContent;
   }
 }
