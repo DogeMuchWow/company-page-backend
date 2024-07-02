@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { homeContentsModule } from './homeContents/homeContents.module';
 import { ConfigModule } from '@nestjs/config';
 import { contactTicketsModule } from './contactTickets/contactTickets.module';
+import { contactBranchsModule } from './contactBranchs/contactBranchs.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { contactTicketsModule } from './contactTickets/contactTickets.module';
     MongooseModule.forRoot(process.env.MONGODB_URI || ''),
     homeContentsModule,
     contactTicketsModule,
+    contactBranchsModule,
   ],
   //ConfigModule.forRoot(),
   // MongooseModule.forRootAsync({
