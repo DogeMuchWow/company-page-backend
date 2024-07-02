@@ -1,20 +1,24 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { homeContentsModule } from './homeContents/homeContents.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
+import { contactTicketsModule } from './contactTickets/contactTickets.module';
 
 @Module({
   imports: [
-    //127 because node 18 and up prefer ipv6
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGODB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    MongooseModule.forRoot(process.env.MONGODB_URI || ''),
     homeContentsModule,
+    contactTicketsModule,
   ],
+  //ConfigModule.forRoot(),
+  // MongooseModule.forRootAsync({
+  //   imports: [ConfigModule],
+  //   useFactory: async (configService: ConfigService) => ({
+  //     uri: configService.get<string>('MONGODB_URI'),
+  //   }),
+  //   inject: [ConfigService],
+  // }),
   controllers: [],
   providers: [],
 })
