@@ -4,6 +4,7 @@ import { homeContentsModule } from './homeContents/homeContents.module';
 import { ConfigModule } from '@nestjs/config';
 import { contactTicketsModule } from './contactTickets/contactTickets.module';
 import { contactBranchsModule } from './contactBranchs/contactBranchs.module';
+import { liciensesModule } from './licence/licence.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { contactBranchsModule } from './contactBranchs/contactBranchs.module';
     homeContentsModule,
     contactTicketsModule,
     contactBranchsModule,
+    liciensesModule,
   ],
   //ConfigModule.forRoot(),
   // MongooseModule.forRootAsync({
