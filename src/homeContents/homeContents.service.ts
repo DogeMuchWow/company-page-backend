@@ -13,7 +13,7 @@ export class HomeContentsService {
     const newHomeContent = new this.homeContentModel(createHomeContentsDTO);
     return await newHomeContent.save();
   }
-  async getHomeContent(): Promise<homeContent[]> {
-    return await this.homeContentModel.find().exec();
+  getHomeContent() {
+    return this.homeContentModel.find();
   }
 }

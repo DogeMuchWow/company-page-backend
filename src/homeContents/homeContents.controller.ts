@@ -21,7 +21,6 @@ export class HomeContentsController {
   async createHomeContent(
     @Body() createHomeContentsDTO: CreateHomeContentsDTO,
   ) {
-    console.log(createHomeContentsDTO);
     return await this.homeContentService.createHomeContent(
       createHomeContentsDTO,
     );
@@ -30,7 +29,7 @@ export class HomeContentsController {
   @Get()
   @ApiOperation({ summary: 'Get home content data' })
   @ApiResponse({ status: 200, description: 'Get data successfully' })
-  async getHomeContent() {
-    return await this.homeContentService.getHomeContent();
+  getHomeContent() {
+    return this.homeContentService.getHomeContent();
   }
 }
