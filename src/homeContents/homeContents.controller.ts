@@ -10,7 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HomeContentsService } from './homeContents.service';
 import { CreateHomeContentsDTO } from './dto/CreateHomeContents.DTO';
 import mongoose from 'mongoose';
@@ -34,7 +34,6 @@ export class HomeContentsController {
 
   @Get()
   @ApiOperation({ summary: 'Get home content data' })
-  @ApiResponse({ status: 200, description: 'Get data successfully' })
   getHomeContent() {
     return this.homeContentService.getHomeContent();
   }

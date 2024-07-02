@@ -5,13 +5,13 @@ export type homeContentDocument = mongoose.HydratedDocument<homeContent>;
 
 @Schema()
 export class homeContent {
-  @Prop({ type: mongoose.Schema.Types.String, require: false })
+  @Prop({ type: mongoose.Schema.Types.String, require: true })
   title: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, require: false })
+  @Prop({ type: mongoose.Schema.Types.String, require: true })
   description: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, require: false })
+  @Prop({ type: mongoose.Schema.Types.String, require: true })
   image: string;
 }
 
