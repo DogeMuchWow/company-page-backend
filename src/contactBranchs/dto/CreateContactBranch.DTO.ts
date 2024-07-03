@@ -1,20 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateContactBranchsDTO {
-  @ApiProperty()
+  @ApiProperty({ example: 'Nguyen Van A' })
   @IsString()
   @IsNotEmpty()
   name: string;
-  @ApiProperty()
+  @ApiProperty({ example: '0912345678' })
   @IsString()
   @IsNotEmpty()
   phone: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'nguyenvana@testmail.com' })
   @IsString()
+  @IsEmail()
   @IsNotEmpty()
   email: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'Test address' })
   @IsString()
   @IsNotEmpty()
   address: string;

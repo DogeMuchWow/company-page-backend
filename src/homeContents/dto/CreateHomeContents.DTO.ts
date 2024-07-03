@@ -6,10 +6,12 @@ export class CreateHomeContentsDTO {
   @IsString()
   @IsNotEmpty()
   title: string;
+
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   description: string;
+
   @ApiProperty()
   @IsNotEmpty()
   @IsString()

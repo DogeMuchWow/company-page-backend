@@ -6,10 +6,12 @@ export class UpdateHomeContentsDTO {
   @IsString()
   @IsOptional()
   title?: string;
+
   @ApiProperty()
   @IsOptional()
   @IsString()
   description?: string;
+
   @ApiProperty()
   @IsOptional()
   @IsString()

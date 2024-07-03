@@ -1,24 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateContactTicketsDTO {
-  @ApiProperty()
+  @ApiProperty({ example: 'Nguyen Van A' })
   @IsString()
   @IsNotEmpty()
   name: string;
-  @ApiProperty()
+  @ApiProperty({ example: '0912345678' })
+  @MaxLength(10)
   @IsString()
   @IsNotEmpty()
   phone: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'nguyenvana@testmail.com' })
+  @IsEmail()
   @IsString()
   @IsNotEmpty()
   email: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'Test message' })
   @IsString()
   @IsNotEmpty()
   message: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'false' })
   @IsBoolean()
   @IsNotEmpty()
   checked: boolean;

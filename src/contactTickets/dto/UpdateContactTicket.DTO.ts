@@ -2,23 +2,23 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class UpdateContactTicketsDTO {
-  @ApiProperty()
+  @ApiProperty({ example: 'Nguyen Van A' })
   @IsString()
   @IsOptional()
   name?: string;
-  @ApiProperty()
+  @ApiProperty({ example: '0912345678' })
   @IsString()
   @IsOptional()
   phone?: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'nguyenvana@testmail.com' })
   @IsString()
   @IsOptional()
   email?: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'Test message' })
   @IsString()
   @IsOptional()
   message?: string;
-  @ApiProperty()
+  @ApiProperty({ example: 'false' })
   @IsBoolean()
   @IsOptional()
   checked?: boolean;
