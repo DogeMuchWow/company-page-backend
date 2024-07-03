@@ -20,6 +20,7 @@ import { trademarkModule } from './trademark/trademark.module';
     slidesModule,
     categoryModule,
     trademarkModule,
+    slidesModule,
   ],
   //ConfigModule.forRoot(),
   // MongooseModule.forRootAsync({

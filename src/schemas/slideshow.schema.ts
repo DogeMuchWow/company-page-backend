@@ -1,5 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 
 export type slideshowDocument = HydratedDocument<slideshow>;
 
@@ -8,8 +8,12 @@ export class slideshow {
   @Prop({ type: mongoose.Schema.Types.String, required: true })
   name: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, required: true })
-  slides: ObjectId[];
+  @Prop({
+    type: [mongoose.Schema.Types.ObjectId],
+    required: true,
+    ref: 'slide',
+  })
+  slides: mongoose.Schema.Types.ObjectId[];
 
   @Prop({ type: mongoose.Schema.Types.String, required: true })
   effect: string;
