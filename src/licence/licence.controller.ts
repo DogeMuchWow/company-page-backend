@@ -38,7 +38,7 @@ export class LicensesController {
   @ApiOperation({ summary: 'Get home content data by id' })
   getLicenseById(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('License data not found', 404);
+    if (!isValid) throw new HttpException('License data id not valid', 400);
     const findLicense = this.licenseService.getLicenseById(id);
     if (!findLicense) throw new HttpException('License not found', 404);
     return findLicense;
@@ -51,7 +51,7 @@ export class LicensesController {
     @Body() updateLicensesDTO: UpdateLicensesDTO,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('License id not found', 404);
+    if (!isValid) throw new HttpException('License id not valid', 400);
     const updateLicense = await this.licenseService.updateLicense(
       id,
       updateLicensesDTO,
@@ -64,7 +64,7 @@ export class LicensesController {
   @ApiOperation({ summary: 'Delete license data by id' })
   async deleteHomeContent(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('License id not found', 404);
+    if (!isValid) throw new HttpException('License id not valid', 400);
     const deleteLicense = await this.licenseService.deleteLicense(id);
     if (!deleteLicense) throw new HttpException('Home Content not found', 404);
     return deleteLicense;

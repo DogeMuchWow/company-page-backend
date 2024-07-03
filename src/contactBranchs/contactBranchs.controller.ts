@@ -41,7 +41,7 @@ export class contactBranchsController {
   @ApiOperation({ summary: 'Get contact branch data by id' })
   getContactbranchById(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Contact branch data not found', 404);
+    if (!isValid) throw new HttpException('Contact branch id not valid', 400);
     const findContactbranch =
       this.contactbranchsService.getContactBranchById(id);
     if (!findContactbranch)
@@ -56,7 +56,7 @@ export class contactBranchsController {
     @Body() updateContactbranchsDTO: UpdateContactBranchsDTO,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Contact branch id not found', 404);
+    if (!isValid) throw new HttpException('Contact branch id not valid', 400);
     const updateContactbranch =
       await this.contactbranchsService.updateContactBranch(
         id,
@@ -71,7 +71,7 @@ export class contactBranchsController {
   @ApiOperation({ summary: 'Delete contact branch data by id' })
   async deleteContactbranch(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Contact branch id not found', 404);
+    if (!isValid) throw new HttpException('Contact branch id not valid', 400);
     const deleteContactbranch =
       await this.contactbranchsService.deleteContactBranch(id);
     if (!deleteContactbranch)

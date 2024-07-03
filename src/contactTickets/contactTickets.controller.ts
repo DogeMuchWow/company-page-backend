@@ -31,6 +31,7 @@ export class contactTicketsController {
       createContactTicketsDTO,
     );
   }
+
   @Get()
   @ApiOperation({ summary: 'Get contact ticket data' })
   getHomeContent() {
@@ -41,7 +42,7 @@ export class contactTicketsController {
   @ApiOperation({ summary: 'Get contact ticket data by id' })
   getContactTicketById(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Contact ticket data not found', 404);
+    if (!isValid) throw new HttpException('Contact ticket id not valid', 400);
     const findContactTicket =
       this.contactTicketsService.getContactTicketById(id);
     if (!findContactTicket)
@@ -56,7 +57,7 @@ export class contactTicketsController {
     @Body() updateContactTicketsDTO: UpdateContactTicketsDTO,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Contact ticket id not found', 404);
+    if (!isValid) throw new HttpException('Contact ticket id not valid', 400);
     const updateContactTicket =
       await this.contactTicketsService.updateContactTicket(
         id,
@@ -71,7 +72,7 @@ export class contactTicketsController {
   @ApiOperation({ summary: 'Delete contact ticket data by id' })
   async deleteContactTicket(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Contact ticket id not found', 404);
+    if (!isValid) throw new HttpException('Contact ticket id not valid', 400);
     const deleteContactTicket =
       await this.contactTicketsService.deleteContactTicket(id);
     if (!deleteContactTicket)

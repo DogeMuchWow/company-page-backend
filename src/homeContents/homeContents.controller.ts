@@ -42,7 +42,7 @@ export class HomeContentsController {
   @ApiOperation({ summary: 'Get home content data by id' })
   getHomeContentById(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Home content data not found', 404);
+    if (!isValid) throw new HttpException('Home content id not valid', 400);
     const findHomeContent = this.homeContentService.getHomeContentById(id);
     if (!findHomeContent)
       throw new HttpException('Home content not found', 404);
@@ -56,7 +56,7 @@ export class HomeContentsController {
     @Body() updateHomeContentsDTO: UpdateHomeContentsDTO,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('home content id not found', 404);
+    if (!isValid) throw new HttpException('home content id not valid', 400);
     const updateHomeContent = await this.homeContentService.updateHomeContent(
       id,
       updateHomeContentsDTO,
@@ -70,7 +70,7 @@ export class HomeContentsController {
   @ApiOperation({ summary: 'Delete home content data by id' })
   async deleteHomeContent(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('Home Content id not found', 404);
+    if (!isValid) throw new HttpException('Home Content id not valid', 400);
     const deleteHomeContent =
       await this.homeContentService.deleteHomeContent(id);
     if (!deleteHomeContent)
