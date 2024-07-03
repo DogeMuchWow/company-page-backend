@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CategorySchema, category } from 'src/schemas/category.schema';
-import { SlideShowService } from './slideshow.service';
+import { SlideshowService } from './slideshow.service';
 import { SlideshowController } from './slideshow.controller';
+import { slideshow, slideshowSchema } from 'src/schemas/slideshow.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
-        name: category.name,
-        schema: CategorySchema,
+        name: slideshow.name,
+        schema: slideshowSchema,
       },
     ]),
   ],
-  providers: [SlideShowService],
+  providers: [SlideshowService],
   controllers: [SlideshowController],
 })
-export class categoryModule {}
+export class slideshowModule {}

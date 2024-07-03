@@ -10,14 +10,14 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Types } from 'mongoose';
-import { SlideShowService } from './slideshow.service';
+import { SlideshowService } from './slideshow.service';
 import { CreateSlideshowDTO } from './dto/CreateSlideshow.DTO';
 import { UpdateSlideshowDTO } from './dto/UpdateSlideshow.DTO';
 
 @ApiTags('Slideshow')
 @Controller('slideshow')
 export class SlideshowController {
-  constructor(private slideshowService: SlideShowService) {}
+  constructor(private slideshowService: SlideshowService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create slideshow data' })

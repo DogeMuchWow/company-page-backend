@@ -6,7 +6,7 @@ import { CreateSlideshowDTO } from './dto/CreateSlideshow.DTO';
 import { UpdateSlideshowDTO } from './dto/UpdateSlideshow.DTO';
 
 @Injectable()
-export class SlideShowService {
+export class SlideshowService {
   constructor(
     @InjectModel(slideshow.name) private slideShowModule: Model<slideshow>,
   ) {}

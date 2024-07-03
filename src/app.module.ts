@@ -8,6 +8,7 @@ import { licensesModule } from './licence/licence.module';
 import { slidesModule } from './slide/slides.module';
 import { categoryModule } from './category/category.module';
 import { trademarkModule } from './trademark/trademark.module';
+import { slideshowModule } from './slideshow/slideshow.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { trademarkModule } from './trademark/trademark.module';
     slidesModule,
     categoryModule,
     trademarkModule,
-    slidesModule,
+    slideshowModule,
   ],
   //ConfigModule.forRoot(),
   // MongooseModule.forRootAsync({
