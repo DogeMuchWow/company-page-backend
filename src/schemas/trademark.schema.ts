@@ -1,13 +1,19 @@
-import { Prop, Schema } from '@nestjs/mongoose';
-import mongoose, { ObjectId } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
+
+export type trademarkDocument = HydratedDocument<trademark>;
 
 @Schema()
 export class trademark {
   @Prop({ type: mongoose.Schema.Types.String, required: true })
   copyright: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
-  licenses: ObjectId;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'license',
+  })
+  license: ObjectId;
 
   @Prop({ type: mongoose.Schema.Types.String, required: true })
   favicon: string;
@@ -21,3 +27,5 @@ export class trademark {
   @Prop({ type: mongoose.Schema.Types.String, required: true })
   logoWord: string;
 }
+
+export const trademarkSchema = SchemaFactory.createForClass(trademark);
