@@ -6,6 +6,7 @@ import { contactTicketsModule } from './contactTickets/contactTickets.module';
 import { contactBranchsModule } from './contactBranchs/contactBranchs.module';
 import { licensesModule } from './licence/licence.module';
 import { slidesModule } from './slide/slides.module';
+import { categoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { slidesModule } from './slide/slides.module';
     contactBranchsModule,
     licensesModule,
     slidesModule,
+    categoryModule,
   ],
   //ConfigModule.forRoot(),
   // MongooseModule.forRootAsync({
