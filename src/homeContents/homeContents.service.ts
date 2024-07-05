@@ -25,6 +25,15 @@ export class HomeContentsService {
     return this.homeContentModel.findById(id);
   }
 
+  //Read home content with pagination and page seperation
+  async findData(limit: number, skip: number): Promise<homeContent[]> {
+    return this.homeContentModel.find().limit(limit).skip(skip);
+  }
+
+  async getDataCount(): Promise<number> {
+    return this.homeContentModel.countDocuments({}).exec();
+  }
+
   //Update home content
   async updateHomeContent(
     id: string,
