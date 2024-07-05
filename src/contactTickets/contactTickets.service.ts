@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { contactTicket } from 'src/schemas/contactTicket.schema';
 import { CreateContactTicketsDTO } from './dto/CreateContactTicket.DTO';
 import { UpdateContactTicketsDTO } from './dto/UpdateContactTicket.DTO';
+import { contactTicketDTO } from './dto/ContactTicket.DTO';
 
 @Injectable()
 export class ContactTicketsService {
@@ -28,6 +29,18 @@ export class ContactTicketsService {
   //Read contact ticket by id
   getContactTicketById(id: string) {
     return this.contactTicketsModule.findById(id);
+  }
+
+  //Read contact ticket by pagination
+  async getDataByPage(
+    limit: number,
+    skip: number,
+  ): Promise<contactTicketDTO[]> {
+    return this.contactTicketsModule.find().limit(limit).skip(skip);
+  }
+
+  async getDataCount(): Promise<number> {
+    return this.contactTicketsModule.countDocuments().exec();
   }
 
   //Update contact ticket

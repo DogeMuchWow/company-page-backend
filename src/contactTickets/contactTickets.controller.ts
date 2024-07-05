@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -50,6 +51,30 @@ export class contactTicketsController {
     return findContactTicket;
   }
 
+  @Get('data/:pageInput/:limitInput')
+  @ApiOperation({ summary: 'Get contatct ticket by pagination' })
+  async getContactTicketByPagination(
+    @Param('pageInput') pageInput: number,
+    @Query('page') page = pageInput,
+    @Param('limitInput') limitInput: number,
+    @Query('limit') limit = limitInput,
+  ) {
+    const skip = (page - 1) * limit;
+    const [data, count] = await Promise.all([
+      this.contactTicketsService.getDataByPage(limit, skip),
+      this.contactTicketsService.getDataCount(),
+    ]);
+    const totalPages = Math.ceil(count / limit);
+    if (page <= 0 || page > totalPages)
+      throw new HttpException(
+        'ERROR: Current page > total pages or current page <= 0',
+        422,
+      );
+
+    if (limitInput <= 0)
+      throw new HttpException('ERROR: Page limit must be larger than 0', 422);
+    return data;
+  }
   @Patch(':id')
   @ApiOperation({ summary: 'Update contact ticket data by id' })
   async updateContactTicket(
