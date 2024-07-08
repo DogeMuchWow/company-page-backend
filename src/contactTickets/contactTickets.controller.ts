@@ -75,6 +75,7 @@ export class contactTicketsController {
       throw new HttpException('ERROR: Page limit must be larger than 0', 422);
     return data;
   }
+
   @Patch(':id')
   @ApiOperation({ summary: 'Update contact ticket data by id' })
   async updateContactTicket(
