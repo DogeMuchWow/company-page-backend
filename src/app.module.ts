@@ -10,6 +10,7 @@ import { categoryModule } from './category/category.module';
 import { trademarkModule } from './trademark/trademark.module';
 import { slideshowModule } from './slideshow/slideshow.module';
 import { usersmodule } from './user/users.module';
+import { newsModule } from './news/news.module';
 
 @Module({
   imports: [
@@ -24,15 +25,8 @@ import { usersmodule } from './user/users.module';
     trademarkModule,
     slideshowModule,
     usersmodule,
+    newsModule,
   ],
-  //ConfigModule.forRoot(),
-  // MongooseModule.forRootAsync({
-  //   imports: [ConfigModule],
-  //   useFactory: async (configService: ConfigService) => ({
-  //     uri: configService.get<string>('MONGODB_URI'),
-  //   }),
-  //   inject: [ConfigService],
-  // }),
   controllers: [],
   providers: [],
 })
