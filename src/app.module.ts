@@ -9,6 +9,7 @@ import { slidesModule } from './slide/slides.module';
 import { categoryModule } from './category/category.module';
 import { trademarkModule } from './trademark/trademark.module';
 import { slideshowModule } from './slideshow/slideshow.module';
+import { usersmodule } from './user/users.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { slideshowModule } from './slideshow/slideshow.module';
     categoryModule,
     trademarkModule,
     slideshowModule,
+    usersmodule,
   ],
   //ConfigModule.forRoot(),
   // MongooseModule.forRootAsync({
