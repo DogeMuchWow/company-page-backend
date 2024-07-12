@@ -12,7 +12,7 @@ export class UpdateHomeContentsDTO {
   @IsString()
   description?: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string', format: 'binary' })
   @IsOptional()
   @IsString()
   image?: string;

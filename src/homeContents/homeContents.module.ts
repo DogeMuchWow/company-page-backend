@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HomeContentSchema, homeContent } from 'src/schemas/homeContent.schema';
 import { HomeContentsService } from './homeContents.service';
 import { HomeContentsController } from './homeContents.controller';
+import { imageUploadModule } from 'src/images-upload/imageUpload.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { HomeContentsController } from './homeContents.controller';
         schema: HomeContentSchema,
       },
     ]),
+    imageUploadModule,
   ],
   providers: [HomeContentsService],
   controllers: [HomeContentsController],

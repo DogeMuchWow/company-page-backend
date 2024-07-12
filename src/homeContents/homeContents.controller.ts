@@ -8,14 +8,16 @@ import {
   Patch,
   Post,
   Query,
-  UsePipes,
-  ValidationPipe,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HomeContentsService } from './homeContents.service';
 import { CreateHomeContentsDTO } from './dto/CreateHomeContents.DTO';
 import mongoose from 'mongoose';
 import { UpdateHomeContentsDTO } from './dto/UpdateHomeContents.DTO';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @ApiTags('Home contents')
 @Controller('homeContents')
@@ -23,13 +25,46 @@ export class HomeContentsController {
   constructor(private homeContentService: HomeContentsService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe())
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './temp-images',
+        filename: (req, file, cb) => {
+          cb(null, file.originalname);
+        },
+      }),
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+          description: 'Home contents tittle',
+          example: 'Sản phẩm',
+        },
+        description: {
+          type: 'string',
+          description: 'Home contents description',
+        },
+        image: {
+          type: 'string',
+          format: 'binary',
+          description: 'The image file upload',
+        },
+      },
+    },
+  })
   @ApiOperation({ summary: 'Create home content data' })
   async createHomeContent(
     @Body() createHomeContentsDTO: CreateHomeContentsDTO,
+    @UploadedFile() image: Express.Multer.File,
   ) {
     return await this.homeContentService.createHomeContent(
       createHomeContentsDTO,
+      image,
     );
   }
 
@@ -86,12 +121,14 @@ export class HomeContentsController {
   async updateHomeContent(
     @Param('id') id: string,
     @Body() updateHomeContentsDTO: UpdateHomeContentsDTO,
+    @UploadedFile() image: Express.Multer.File,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if (!isValid) throw new HttpException('home content id not valid', 400);
     const updateHomeContent = await this.homeContentService.updateHomeContent(
       id,
       updateHomeContentsDTO,
+      image,
     );
     if (!updateHomeContent)
       throw new HttpException('home content not found', 404);
