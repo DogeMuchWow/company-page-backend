@@ -117,6 +117,38 @@ export class HomeContentsController {
   }
 
   @Patch(':id')
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './temp-images',
+        filename: (req, file, cb) => {
+          cb(null, file.originalname);
+        },
+      }),
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: {
+          type: 'string',
+          description: 'Home contents tittle',
+          example: 'Sản phẩm',
+        },
+        description: {
+          type: 'string',
+          description: 'Home contents description',
+        },
+        image: {
+          type: 'string',
+          format: 'binary',
+          description: 'The image file upload',
+        },
+      },
+    },
+  })
   @ApiOperation({ summary: 'Update home content data by id' })
   async updateHomeContent(
     @Param('id') id: string,
@@ -124,14 +156,14 @@ export class HomeContentsController {
     @UploadedFile() image: Express.Multer.File,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    if (!isValid) throw new HttpException('home content id not valid', 400);
+    if (!isValid) throw new HttpException('Home content id not valid', 400);
     const updateHomeContent = await this.homeContentService.updateHomeContent(
       id,
       updateHomeContentsDTO,
       image,
     );
     if (!updateHomeContent)
-      throw new HttpException('home content not found', 404);
+      throw new HttpException('Home content not found', 404);
     return updateHomeContent;
   }
 

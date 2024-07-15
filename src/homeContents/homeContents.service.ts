@@ -6,7 +6,6 @@ import { CreateHomeContentsDTO } from './dto/CreateHomeContents.DTO';
 import { UpdateHomeContentsDTO } from './dto/UpdateHomeContents.DTO';
 import { ImagesUploadService } from 'src/images-upload/imagesUpload.service';
 import fs from 'fs/promises';
-import { join } from 'path';
 
 @Injectable()
 export class HomeContentsService {
@@ -61,10 +60,8 @@ export class HomeContentsService {
   async deleteHomeContent(id: string) {
     try {
       const findData = await this.homeContentModel.findById(id);
-      const imageString = findData?.image.toString();
-      if (imageString) {
-        const imagePath = join('./upload', imageString);
-        //console.log(imagePath);
+      const imagePath = findData?.image.toString();
+      if (imagePath) {
         fs.unlink(imagePath);
         console.log('Image delete');
       }
@@ -73,4 +70,6 @@ export class HomeContentsService {
     }
     return this.homeContentModel.findByIdAndDelete(id);
   }
+
+  //Delete many home content
 }
