@@ -24,7 +24,7 @@ import { diskStorage } from 'multer';
 export class HomeContentsController {
   constructor(private homeContentService: HomeContentsService) {}
 
-  @Post()
+  @Post('post')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -68,13 +68,13 @@ export class HomeContentsController {
     );
   }
 
-  @Get()
+  @Get('get')
   @ApiOperation({ summary: 'Get home content data' })
   getHomeContent() {
     return this.homeContentService.getHomeContent();
   }
 
-  @Get(':id')
+  @Get('getById/:id')
   @ApiOperation({ summary: 'Get home content data by id' })
   getHomeContentById(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -109,14 +109,10 @@ export class HomeContentsController {
       throw new HttpException('ERROR: Page limit must be larger than 0', 422);
     return {
       data,
-      // totalPages,
-      // currentPage: page,
-      // itemPerPage: limit,
-      // totaItem: count,
     };
   }
 
-  @Patch(':id')
+  @Patch('update/:id')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -167,7 +163,7 @@ export class HomeContentsController {
     return updateHomeContent;
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   @ApiOperation({ summary: 'Delete home content data by id' })
   async deleteHomeContent(@Param('id') id: string) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
@@ -177,5 +173,27 @@ export class HomeContentsController {
     if (!deleteHomeContent)
       throw new HttpException('Home Content not found', 404);
     return deleteHomeContent;
+  }
+
+  @Delete('deleteMany')
+  @ApiOperation({ summary: 'Delete many home content' })
+  async deleteManyHomeContent(@Body() homeContentIds: string[]) {
+    const validIds: string[] = [];
+    const invalidIds: string[] = [];
+    for (let i = 0; i < homeContentIds.length; i++) {
+      if (mongoose.Types.ObjectId.isValid(homeContentIds[i])) {
+        validIds.push(homeContentIds[i]);
+      } else {
+        invalidIds.push(homeContentIds[i]);
+      }
+    }
+    if (validIds.length !== 0) {
+      return await this.homeContentService.deleteManyHomeContent(validIds);
+    } else {
+      throw new HttpException(
+        'Home content not found and cannot be delete',
+        400,
+      );
+    }
   }
 }
