@@ -13,7 +13,7 @@ export class ImagesUploadService {
     try {
       const allowFile = this.allowFileType(image);
       if (allowFile) {
-        if (image.mimetype.toString().toLocaleLowerCase().includes('svg')) {
+        if (image.mimetype.toString().toLowerCase().includes('svg')) {
           await fs.mkdir('./upload/images', { recursive: true });
           await fs.writeFile(imagePath, readImage);
         } else {
@@ -31,7 +31,6 @@ export class ImagesUploadService {
     } finally {
       try {
         await fs.unlink(image.path);
-        console.log('Temp file remove');
       } catch (error) {
         console.error('ERROR:' + error);
       }
@@ -42,6 +41,7 @@ export class ImagesUploadService {
     const mimeType = file.mimetype.toString().toLowerCase();
     if (
       file.mimetype &&
+      file &&
       (mimeType.includes('png') ||
         mimeType.includes('jpeg') ||
         mimeType.includes('jpg') ||
@@ -50,12 +50,20 @@ export class ImagesUploadService {
     ) {
       return true;
     } else {
-      console.error('File type not allowed');
+      console.log('File type not allow');
       return false;
     }
   }
 
-  async imageSharpBuffer(file: Buffer) {
+  checkEmptyFile(file: Express.Multer.File) {
+    if (file.size !== 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private async imageSharpBuffer(file: Buffer) {
     await sharp(file).metadata();
     const imageBuffer = await sharp(file)
       .resize({ fit: sharp.fit.inside })
