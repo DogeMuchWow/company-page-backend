@@ -19,6 +19,7 @@ import { UpdateHomeContentsDTO } from './dto/UpdateHomeContents.DTO';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ImagesUploadService } from 'src/images-upload/imagesUpload.service';
+import fs from 'fs/promises';
 
 @ApiTags('Home contents')
 @Controller('homeContents')
@@ -67,8 +68,11 @@ export class HomeContentsController {
     @Body() createHomeContentsDTO: CreateHomeContentsDTO,
     @UploadedFile() image: Express.Multer.File,
   ) {
-    const allowFileType = this.imageUploadService.allowFileType(image);
-    if (image !== undefined && allowFileType === false) {
+    if (
+      image !== undefined &&
+      this.imageUploadService.allowFileType(image) === false
+    ) {
+      fs.unlink(image.path);
       throw new HttpException('Invalid image type', 400);
     }
     return await this.homeContentService.createHomeContent(
@@ -162,6 +166,13 @@ export class HomeContentsController {
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
     if (!isValid) throw new HttpException('Home content id not valid', 400);
+    if (
+      image !== undefined &&
+      this.imageUploadService.allowFileType(image) === false
+    ) {
+      fs.unlink(image.path);
+      throw new HttpException('Invalid image type', 400);
+    }
     const updateHomeContent = await this.homeContentService.updateHomeContent(
       id,
       updateHomeContentsDTO,
