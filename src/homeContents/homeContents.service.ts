@@ -13,6 +13,8 @@ export class HomeContentsService {
     @InjectModel(homeContent.name) private homeContentModel: Model<homeContent>,
     private imageUploadService: ImagesUploadService,
   ) {}
+
+  //Create home content
   async createHomeContent(
     createHomeContentsDTO: CreateHomeContentsDTO,
     image: Express.Multer.File,
@@ -22,6 +24,7 @@ export class HomeContentsService {
         await this.imageUploadService.imageUpload(image);
       createHomeContentsDTO.image = imagePathProccess;
     }
+
     const newHomeContent = new this.homeContentModel(createHomeContentsDTO);
     return await newHomeContent.save();
   }
@@ -56,8 +59,10 @@ export class HomeContentsService {
     if (typeof imagePath === 'string' && imagePath !== '') {
       fs.unlink(imagePath);
     }
-    const imagePathProcess = await this.imageUploadService.imageUpload(image);
-    updateHomeContentsDTO.image = imagePathProcess;
+    if (image !== undefined) {
+      const imagePathProcess = await this.imageUploadService.imageUpload(image);
+      updateHomeContentsDTO.image = imagePathProcess;
+    }
     return await this.homeContentModel.findByIdAndUpdate(
       id,
       updateHomeContentsDTO,
