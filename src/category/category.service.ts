@@ -23,7 +23,7 @@ export class CategoryService {
   }
 
   //Read category by id
-  getContactTicketById(id: string) {
+  getCategoryById(id: string) {
     return this.categoryModule.findById(id);
   }
 

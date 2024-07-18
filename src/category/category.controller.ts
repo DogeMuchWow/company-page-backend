@@ -38,7 +38,7 @@ export class categoryController {
     if (!isValid) {
       throw new HttpException('Category id is not valid', 400);
     }
-    const findCategory = this.categoryService.getContactTicketById(id);
+    const findCategory = this.categoryService.getCategoryById(id);
     if (!findCategory) throw new HttpException('Category is not found', 404);
     return findCategory;
   }
