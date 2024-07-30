@@ -8,8 +8,8 @@ export class license {
   @Prop({ type: mongoose.Schema.Types.String, require: true })
   text: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, require: true })
-  image: string;
+  @Prop({ type: [mongoose.Schema.Types.String], require: true })
+  images: string[];
 }
 
 export const LicenseSchema = SchemaFactory.createForClass(license);

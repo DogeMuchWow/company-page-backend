@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { license, LicenseSchema } from 'src/schemas/licence.schema';
 import { LicensesService } from './licence.service';
 import { LicensesController } from './licence.controller';
+import { imageUploadModule } from 'src/images-upload/imageUpload.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { LicensesController } from './licence.controller';
         schema: LicenseSchema,
       },
     ]),
+    imageUploadModule,
   ],
   providers: [LicensesService],
   controllers: [LicensesController],

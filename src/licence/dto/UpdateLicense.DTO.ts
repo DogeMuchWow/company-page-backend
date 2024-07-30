@@ -7,8 +7,8 @@ export class UpdateLicensesDTO {
   @IsOptional()
   text?: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string', format: 'binary' })
   @IsString()
   @IsOptional()
-  image?: string;
+  images?: string[];
 }
