@@ -85,6 +85,9 @@ export class LicensesService {
   async deleteSelectedImage(id: string, imageName: string) {
     const findData = await this.licenseModel.findById(id);
     const afterDeleteImages: string[] = [];
+    //console.log(imageName.trim().split(','));
+    const imageStringSplit = imageName.trim().split(',');
+    //console.log(imageStringSplit);
     if (findData?.images && findData.images.length > 0) {
       for (const imagePath of findData.images) {
         afterDeleteImages.push(imagePath);
@@ -94,15 +97,21 @@ export class LicensesService {
         );
         // Remove the extension
         const filename = filenameWithExtension.replace(/\.[^/.]+$/, '');
-        console.log(typeof imagePath === 'string');
-        console.log(imagePath !== '');
-        console.log(imageName);
-        console.log(filename);
+        let deleteString: string = '';
+        for (const imageItem of imageStringSplit) {
+          deleteString = imageItem;
+          if (imageItem === filename) {
+            const index = imageStringSplit.indexOf(imageItem);
+            imageStringSplit.splice(index, 1);
+          }
+        }
+        //console.log('Delete string:', deleteString);
+        //console.log('Remain must delete:', imageStringSplit);
 
         if (
           typeof imagePath === 'string' &&
           imagePath !== '' &&
-          filename.toLowerCase() === imageName.toLowerCase()
+          filename.toLowerCase() === deleteString.toLowerCase()
         ) {
           try {
             fs.unlink(imagePath);
@@ -116,7 +125,7 @@ export class LicensesService {
         //   (imgPath) => imgPath !== imagePath,
         // );
       }
-      console.log(afterDeleteImages);
+      //console.log(afterDeleteImages);
       findData.images = afterDeleteImages;
 
       await findData.save();

@@ -172,14 +172,11 @@ export class LicensesController {
     @Param('imageName') imageName: string,
   ) {
     const isValid = mongoose.Types.ObjectId.isValid(id);
-    console.log(id);
-    console.log(imageName.toString());
     if (!isValid) throw new HttpException('License id not valid', 400);
     const deleteImage = await this.licenseService.deleteSelectedImage(
       id,
       imageName,
     );
-    console.log(deleteImage);
     if (!deleteImage) throw new HttpException('Image cannot be deleted', 400);
     return deleteImage;
   }
